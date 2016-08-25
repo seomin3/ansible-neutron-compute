@@ -7,3 +7,4 @@
   with_items:
     - openstack-neutron-linuxbridge
     - ebtables
+    - openstack-selinux
