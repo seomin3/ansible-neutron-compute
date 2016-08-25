@@ -1,13 +1,15 @@
 ---
 
 # RabbitMQ
-openstack_neutron_controller_rabbit_hostname: 'localhost'
-openstack_neutron_controller_rabbit_username: 'rabbit_username_default'
-openstack_neutron_controller_rabbit_password: 'rabbit_pass_default'
+openstack_neutron_compute_rabbit_hostname: 'localhost'
+openstack_neutron_compute_rabbit_username: 'rabbit_username_default'
+openstack_neutron_compute_rabbit_password: 'rabbit_pass_default'
 # Keystone
-openstack_neutron_controller_keystone_admin_port: 35357
-openstack_neutron_controller_keystone_hostname: 'localhost'
-openstack_neutron_controller_keystone_port: 5000
-openstack_neutron_controller_keystone_protocol: 'http'
-openstack_neutron_controller_neutron_user: 'neutron'
-openstack_neutron_controller_neutron_password: 'neutron_pass_default'
+openstack_neutron_compute_keystone_admin_port: 35357
+openstack_neutron_compute_keystone_hostname: 'localhost'
+openstack_neutron_compute_keystone_port: 5000
+openstack_neutron_compute_keystone_protocol: 'http'
+openstack_neutron_compute_neutron_user: 'neutron'
+openstack_neutron_compute_neutron_password: 'neutron_pass_default'
+openstack_neutron_compute_provider_interface_name: '{{ ansible_default_ipv4.interface }}'
+openstack_neutron_compute_overlay_interface_address: '{{ ansible_default_ipv4.address }}'
