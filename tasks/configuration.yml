@@ -1,0 +1,61 @@
+---
+
+- name: Configure neutron compute agent
+  ini_file:
+    dest: '/etc/neutron/neutron.conf'
+    section: '{{ item.section }}'
+    option: '{{ item.option }}'
+    value: '{{ item.value }}'
+  with_items:
+    # Messaging
+    - section: 'DEFAULT'
+      option: 'rpc_backend'
+      value: 'rabbit'
+    - section: 'oslo_messaging_rabbit'
+      option: 'rabbit_host'
+      value: '{{ openstack_neutron_controller_rabbit_hostname }}'
+    - section: 'oslo_messaging_rabbit'
+      option: 'rabbit_userid'
+      value: '{{ openstack_neutron_controller_rabbit_username }}'
+    - section: 'oslo_messaging_rabbit'
+      option: 'rabbit_password'
+      value: '{{ openstack_neutron_controller_rabbit_password }}'
+    # Keystone
+    - section: 'DEFAULT'
+      option: 'auth_strategy'
+      value: 'keystone'
+    - section: keystone_authtoken
+      option: identity_uri
+      value: '{{ openstack_neutron_controller_keystone_protocol }}://{{ openstack_neutron_controller_keystone_hostname }}:{{ openstack_neutron_controller_keystone_admin_port }}'
+    - section: keystone_authtoken
+      option: auth_url
+      value: '{{ openstack_neutron_controller_keystone_protocol }}://{{ openstack_neutron_controller_keystone_hostname }}:{{ openstack_neutron_controller_keystone_admin_port }}'
+    - section: keystone_authtoken
+      option: auth_uri
+      value: '{{ openstack_neutron_controller_keystone_protocol }}://{{ openstack_neutron_controller_keystone_hostname }}:{{ openstack_neutron_controller_keystone_port }}/v3'
+    - section: keystone_authtoken
+      option: project_domain_name
+      value: default
+    - section: keystone_authtoken
+      option: user_domain_name
+      value: default
+    - section: keystone_authtoken
+      option: memcached_servers
+      value: '{{ openstack_neutron_controller_keystone_hostname }}:11211'
+    - section: keystone_authtoken
+      option: project_name
+      value: service
+    - section: keystone_authtoken
+      option: auth_type
+      value: password
+    - section: keystone_authtoken
+      option: auth_version
+      value: v3
+    - section: keystone_authtoken
+      option: username
+      value: '{{ openstack_neutron_controller_neutron_user }}'
+    - section: keystone_authtoken
+      option: password
+      value: '{{ openstack_neutron_controller_neutron_password }}'
+  notify:
+  - Restart linuxbridge agent

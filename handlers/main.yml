@@ -1,0 +1,6 @@
+---
+
+- name: Restart linuxbridge agent
+  service:
+    name: 'neutron-linuxbridge-agent'
+    state: restarted

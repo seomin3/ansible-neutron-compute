@@ -1,0 +1,4 @@
+openstack_neutron_controller_neutron_password: 'neutronpassword'
+openstack_neutron_controller_rabbit_hostname: localhost
+openstack_neutron_controller_rabbit_username: guest
+openstack_neutron_controller_rabbit_password: guest

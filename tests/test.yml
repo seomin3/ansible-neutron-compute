@@ -1,0 +1,41 @@
+---
+
+- hosts: all
+  remote_user: root
+  become: True
+  pre_tasks:
+
+    - name: Install Ubuntu Cloud archive keyring (Debian)
+      when: ansible_os_family == 'Debian'
+      apt:
+        name: ubuntu-cloud-keyring
+        state: present
+
+    - name: Enable OpenStack (Debian)
+      when: ansible_os_family == 'Debian'
+      apt_repository:
+        repo: 'deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/mitaka main'
+        state: present
+        update_cache: yes
+
+    - name: Enable OpenStack (RedHat)
+      when: ansible_os_family == 'RedHat'
+      yum:
+        name: '{{ item }}'
+        state: present
+        update_cache: yes
+      with_items:
+        - centos-release-openstack-mitaka
+        - policycoreutils-python
+
+  roles:
+    - role: rabbitmq
+      rabbitmq_tcp_address: '0.0.0.0'
+      rabbitmq_vhosts:
+        - name: '/'
+      rabbitmq_users:
+        - vhost: '/'
+          user: 'rabbit_username_default'
+          password: 'rabbit_pass_default'
+
+    - openstack-neutron-compute
