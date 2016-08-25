@@ -59,3 +59,31 @@
       value: '{{ openstack_neutron_controller_neutron_password }}'
   notify:
   - Restart linuxbridge agent
+
+- name: Configure the Linux Bridge agent
+  ini_file:
+    dest: '/etc/neutron/plugins/ml2/linuxbridge_agent.ini'
+    section: '{{ item.section }}'
+    option: '{{ item.option }}'
+    value: '{{ item.value }}'
+  with_items:
+    - section: 'linux_bridge'
+      option: 'physical_interface_mappings'
+      value: 'provider:{{ openstack_neutron_controller_provider_interface_name }}' # name of the underlying provider physical network interface (to Internet)
+    - section: 'vxlan'
+      option: 'enable_vxlan'
+      value: 'True'
+    - section: 'vxlan'
+      option: 'local_ip'
+      value: '{{ openstack_neutron_controller_overlay_interface_address }}' # MGMT interface
+    - section: 'vxlan'
+      option: 'l2_population'
+      value: 'True'
+    - section: 'securitygroup'
+      option: 'enable_security_group'
+      value: 'True'
+    - section: 'securitygroup'
+      option: 'firewall_driver'
+      value: 'neutron.agent.linux.iptables_firewall.IptablesFirewallDriver'
+  notify:
+  - Restart linuxbridge agent
