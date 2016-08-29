@@ -1,3 +1,6 @@
-- name: rabbitmq
-  src: https://github.com/abelboldu/ansible-rabbitmq
-  version: master
+---
+
+- name: 'openstack-repo'
+  src: 'abelboldu.openstack-repo'
+
+- src: 'https://github.com/openstack-ansible-galaxy/rabbitmq.git'

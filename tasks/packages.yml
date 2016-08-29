@@ -5,3 +5,9 @@
 
 - include: packages_debian.yml
   when: ansible_os_family == 'Debian'
+
+- name: Start and enable linuxbridge agent
+  service:
+    enabled: True
+    name: 'neutron-linuxbridge-agent'
+    state: started
