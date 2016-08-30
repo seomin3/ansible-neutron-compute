@@ -26,13 +26,22 @@
       value: 'keystone'
     - section: keystone_authtoken
       option: identity_uri
-      value: '{{ openstack_neutron_compute_keystone_protocol }}://{{ openstack_neutron_compute_keystone_hostname }}:{{ openstack_neutron_compute_keystone_admin_port }}'
+      value: >-
+        {{- openstack_neutron_compute_keystone_protocol }}://
+        {{- openstack_neutron_compute_keystone_hostname }}:
+        {{- openstack_neutron_compute_keystone_admin_port }}
     - section: keystone_authtoken
       option: auth_url
-      value: '{{ openstack_neutron_compute_keystone_protocol }}://{{ openstack_neutron_compute_keystone_hostname }}:{{ openstack_neutron_compute_keystone_admin_port }}'
+      value: >-
+        {{- openstack_neutron_compute_keystone_protocol }}://
+        {{- openstack_neutron_compute_keystone_hostname }}:
+        {{- openstack_neutron_compute_keystone_admin_port }}
     - section: keystone_authtoken
       option: auth_uri
-      value: '{{ openstack_neutron_compute_keystone_protocol }}://{{ openstack_neutron_compute_keystone_hostname }}:{{ openstack_neutron_compute_keystone_port }}/v3'
+      value: >-
+        {{- openstack_neutron_compute_keystone_protocol }}://
+        {{- openstack_neutron_compute_keystone_hostname }}:
+        {{- openstack_neutron_compute_keystone_port }}/v3
     - section: keystone_authtoken
       option: project_domain_name
       value: default
@@ -58,7 +67,7 @@
       option: password
       value: '{{ openstack_neutron_compute_neutron_password }}'
   notify:
-  - Restart linuxbridge agent
+    - Restart linuxbridge agent
 
 - name: Configure the Linux Bridge agent
   ini_file:
@@ -69,13 +78,14 @@
   with_items:
     - section: 'linux_bridge'
       option: 'physical_interface_mappings'
-      value: 'provider:{{ openstack_neutron_compute_provider_interface_name }}' # name of the underlying provider physical network interface (to Internet)
+      # name of the underlying provider physical network interface (to Internet)
+      value: 'provider:{{ openstack_neutron_compute_provider_interface_name }}'
     - section: 'vxlan'
       option: 'enable_vxlan'
       value: 'True'
     - section: 'vxlan'
       option: 'local_ip'
-      value: '{{ openstack_neutron_compute_overlay_interface_address }}' # MGMT interface
+      value: '{{ openstack_neutron_compute_overlay_interface_address }}'  # MGMT interface
     - section: 'vxlan'
       option: 'l2_population'
       value: 'True'
@@ -86,4 +96,4 @@
       option: 'firewall_driver'
       value: 'neutron.agent.linux.iptables_firewall.IptablesFirewallDriver'
   notify:
-  - Restart linuxbridge agent
+    - Restart linuxbridge agent

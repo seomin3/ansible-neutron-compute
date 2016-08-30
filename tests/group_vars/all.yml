@@ -1,3 +1,5 @@
+---
+
 openstack_neutron_compute_neutron_password: 'neutronpassword'
 openstack_neutron_compute_rabbit_hostname: localhost
 openstack_neutron_compute_rabbit_username: guest
