@@ -4,5 +4,10 @@
   apt:
     name: '{{ item }}'
     state: present
+  notify:
+    # Workaround an issue where neutron-linuxbridge-agent refuses to startup
+    # without proper configuration (which does happen on Ubuntu), causing
+    # restart handler to fail.
+    - Stop linuxbridge agent
   with_items:
     - neutron-linuxbridge-agent
