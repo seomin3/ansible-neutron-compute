@@ -5,6 +5,6 @@
     name: '{{ item }}'
     state: present
   with_items:
-    - openstack-neutron-linuxbridge
-    - ebtables
+    - openvswitch
+    - openstack-neutron-openvswitch
     - openstack-selinux

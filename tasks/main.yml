@@ -10,4 +10,6 @@
 
 - include: services.yml
 
+- include: openvswitch.yml
+
 - meta: flush_handlers

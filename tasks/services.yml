@@ -1,7 +1,15 @@
 ---
+- name: include ml2 config for systemd
+  copy:
+    src: systemd/neutron-openvswitch-agent.service
+    dest: /usr/lib/systemd/system/neutron-openvswitch-agent.service
+    backup: yes
 
-- name: Start and enable linuxbridge agent
+- name: reload systemd
+  command: systemctl daemon-reload
+
+- name: Start and enable openvswitch agent
   service:
     enabled: True
-    name: 'neutron-linuxbridge-agent'
+    name: 'neutron-openvswitch-agent'
     state: started
